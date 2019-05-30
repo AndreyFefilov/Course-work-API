@@ -1,0 +1,14 @@
+E:\Курсовая\WebApplication\WebAPI\WebAPI\bin\Debug\netcoreapp2.2\WebAPI.deps.json
+E:\Курсовая\WebApplication\WebAPI\WebAPI\bin\Debug\netcoreapp2.2\WebAPI.runtimeconfig.json
+E:\Курсовая\WebApplication\WebAPI\WebAPI\bin\Debug\netcoreapp2.2\WebAPI.runtimeconfig.dev.json
+E:\Курсовая\WebApplication\WebAPI\WebAPI\bin\Debug\netcoreapp2.2\WebAPI.dll
+E:\Курсовая\WebApplication\WebAPI\WebAPI\bin\Debug\netcoreapp2.2\WebAPI.pdb
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.csprojAssemblyReference.cache
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.csproj.CoreCompileInputs.cache
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.RazorAssemblyInfo.cache
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.RazorAssemblyInfo.cs
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.AssemblyInfoInputs.cache
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.AssemblyInfo.cs
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.RazorTargetAssemblyInfo.cache
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.dll
+E:\Курсовая\WebApplication\WebAPI\WebAPI\obj\Debug\netcoreapp2.2\WebAPI.pdb
