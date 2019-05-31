@@ -12,6 +12,7 @@ using WebAPI.Models;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Models.AuthUsers;
 
 namespace WebAPI.Controllers
 {
@@ -104,7 +105,11 @@ namespace WebAPI.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepos.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepos.Username)
+                new Claim(ClaimTypes.Surname, userFromRepos.FirstName),
+                new Claim(ClaimTypes.Name, userFromRepos.LastName),
+                new Claim(ClaimTypes.GivenName, userFromRepos.Patronymic),
+                new Claim(ClaimTypes.Email, userFromRepos.Email),
+                new Claim(ClaimTypes.Role, userFromRepos.Role),
             };
 
             var key = new SymmetricSecurityKey

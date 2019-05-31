@@ -9,6 +9,9 @@ namespace WebAPI.Models
     public abstract class RegistrationUser
     {
         [Required]
+        public int Id { get; set; }
+
+        [Required]
         public string Username { get; set; }
 
         [Required]
@@ -23,6 +26,10 @@ namespace WebAPI.Models
 
         [Required]
         public string Patronymic { get; set; }
+
+        [Required]
+        public string Role { get; set; }
+
 
         [Required]
         public string ConfirmEmail { get; set; }
