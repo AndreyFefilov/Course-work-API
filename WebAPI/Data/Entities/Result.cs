@@ -24,5 +24,7 @@ namespace WebAPI.Data.Entities
         public double Bonus { get; set; }
 
         public string TotalGrade { get; set; }
+
+        public string InArchive { get; set; }
     }
 }
