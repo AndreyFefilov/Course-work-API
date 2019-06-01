@@ -37,6 +37,7 @@ namespace WebAPI
                 (x => x.UseSqlServer("Data Source=localhost;Initial Catalog=studySystem;Integrated Security=True"));
             services.AddCors();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<ICoursesRepository, CoursesRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

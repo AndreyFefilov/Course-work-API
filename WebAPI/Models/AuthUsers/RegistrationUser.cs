@@ -27,20 +27,12 @@ namespace WebAPI.Models
         [Required]
         public string Patronymic { get; set; }
 
-        [Required]
-        public string Role { get; set; }
-
-
-        [Required]
         public string ConfirmEmail { get; set; }
 
-        [Required]
         public string MessageNotify { get; set; }
 
-        [Required]
         public string AdNotify { get; set; }
 
-        [Required]
         public string ArtifactNotify { get; set; }
 
         [Required]
