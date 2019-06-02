@@ -17,11 +17,11 @@ namespace WebAPI.Data.Entities
         public int CourseId { get; set; }
         public Course Course { get; set; }
 
-        public DateTimeOffset StudyYear { get; set; }
+        public string StudyYear { get; set; }
 
-        public double Grade { get; set; }
+        public double? Grade { get; set; }
 
-        public double Bonus { get; set; }
+        public double? Bonus { get; set; }
 
         public string TotalGrade { get; set; }
 

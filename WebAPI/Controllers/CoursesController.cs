@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.Data.Entities;
 using WebAPI.Models;
+using WebAPI.Models.EnitiesDTO;
 
 namespace WebAPI.Controllers
 {
@@ -36,6 +37,45 @@ namespace WebAPI.Controllers
             var createdCourse = await _repos.CreateAsync(courseToCreate, id);
 
             return StatusCode(201);
+        }
+
+        [HttpGet("get-teacher-courses/{id}")]
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetTeacherCourses(int id)
+        {
+            var courses = await _repos.GetTeacherCourses(id);
+
+            if (courses == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(courses);
+        }
+
+        [HttpGet("get-student-courses/{id}")]
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetStudentCourses(int id)
+        {
+            var courses = await _repos.GetStudentCourses(id);
+
+            if (courses == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(courses);
+        }
+
+        [HttpGet("get-all-courses")]  // для администратора
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetAllCourses()
+        {
+            var courses = await _repos.GetAllCourses();
+
+            if (courses == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(courses);
         }
     }
 }
