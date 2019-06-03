@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("Пользователь не найден");
             }
 
             return user;

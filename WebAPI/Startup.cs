@@ -38,6 +38,7 @@ namespace WebAPI
             services.AddCors();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ICoursesRepository, CoursesRepository>();
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
