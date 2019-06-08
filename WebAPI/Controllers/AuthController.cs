@@ -94,6 +94,37 @@ namespace WebAPI.Controllers
             return StatusCode(201);
         }
 
+        [HttpPost("register-admin")]
+        public async Task<IActionResult> RegisterAdmin(RegistrationAdmin admin)
+        {
+            admin.Username = admin.Username.ToLower();
+
+            if (await _repos.UserExists(admin.Username))
+                return BadRequest("Такой логин уже занят");
+
+            if (await _repos.EmailExists(admin.Email))
+                return BadRequest("Такая почта уже используется");
+
+            var userToCreate = new User
+            {
+                Username = admin.Username,
+                Email = admin.Email,
+                ConfirmEmail = "Y",
+                FirstName = admin.FirstName,
+                LastName = ".",
+                Patronymic = ".",
+                Role = "Админ",
+                MessageNotify = "Y",
+                AdNotify = "N",
+                ArtifactNotify = "N",
+                ResultNotify = "N"
+            };
+
+            var createdUser = await _repos.Register(userToCreate, admin.Password);
+
+            return StatusCode(201);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLogin userForLogin)
         {
@@ -133,5 +164,6 @@ namespace WebAPI.Controllers
                 token = tokenHandler.WriteToken(token)
             });
         }
+
     }
 }

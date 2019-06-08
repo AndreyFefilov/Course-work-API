@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Data;
+using WebAPI.Data.Repositories;
 using WebAPI.Helpers;
 
 namespace WebAPI
@@ -35,11 +37,18 @@ namespace WebAPI
         {
             services.AddDbContext<DataContext>
                 (x => x.UseSqlServer("Data Source=localhost;Initial Catalog=studySystem;Integrated Security=True"));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(opt =>
+                {
+                    opt.SerializerSettings.ReferenceLoopHandling =
+                        Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
             services.AddCors();
+
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ICoursesRepository, CoursesRepository>();
             services.AddScoped<IMaterialRepository, MaterialRepository>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -52,6 +61,7 @@ namespace WebAPI
                         ValidateAudience = false
                     };
                 });
+            services.AddAutoMapper();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

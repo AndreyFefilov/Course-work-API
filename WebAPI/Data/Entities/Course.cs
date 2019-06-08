@@ -18,5 +18,6 @@ namespace WebAPI.Data.Entities
         public List<Result> Results { get; set; }
         public List<TeacherCourse> TeacherCourses { get; set; }
         public List<CourseMaterial> CourseMaterials { get; set; }
+        public List<Exam> Exams { get; set; }
     }
 }

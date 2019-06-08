@@ -17,14 +17,16 @@ namespace WebAPI.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ICoursesRepository _repos;
+        private readonly DataContext _context;
 
-        public CoursesController(ICoursesRepository repos)
+        public CoursesController(ICoursesRepository repos, DataContext context)
         {
             _repos = repos;
+            _context = context;
         }
 
         [HttpPost("create-course")]
-        public async Task<IActionResult> Create(CourseForCreate course)
+        public async Task<ActionResult<Course>> Create(CourseForCreate course)
         {
             var courseToCreate = new Course
             {
@@ -32,11 +34,22 @@ namespace WebAPI.Controllers
                 Description = course.Description
             };
 
-            int id = course.TeacherId;
+            var createdCourse = await _repos.CreateAsync(courseToCreate, course.TeacherId);
 
-            var createdCourse = await _repos.CreateAsync(courseToCreate, id);
+            if(createdCourse == null)
+            {
+                return BadRequest();
+            }
 
-            return StatusCode(201);
+            var courseForReturn = new Course
+            {
+                Id = createdCourse.Id,
+                Name = createdCourse.Name,
+                Description = createdCourse.Description,
+                Formula = createdCourse.Formula
+            };
+
+            return courseForReturn;
         }
 
         [HttpGet("get-teacher-courses/{id}")]
@@ -70,12 +83,61 @@ namespace WebAPI.Controllers
         {
             var courses = await _repos.GetAllCourses();
 
-            if (courses == null)
+            if (courses == null) 
             {
                 return NotFound();
             }
 
             return Ok(courses);
+        }
+
+        [HttpPut("update-course/{id}")]
+        public async Task<IActionResult> UpdateCourse(int id, Course course)
+        {
+            if (id != course.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(course).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(course);
+        }
+
+        [HttpDelete("delete-course/{id}")]
+        public async Task<ActionResult> DeleteCourse(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
+            {
+                return NotFound("Курс не найден");
+            }
+
+            _context.Courses.Remove(course);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        private bool CourseExists(int id)
+        {
+            return _context.Courses.Any(e => e.Id == id);
         }
     }
 }

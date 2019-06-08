@@ -21,7 +21,17 @@ namespace WebAPI.Data
             await _context.CourseMaterials.AddAsync(material);
             await _context.SaveChangesAsync();
 
-            return material;
+            var findedMaterial = await _context.CourseMaterials.FindAsync(material.Id);
+
+            var materialToReturn = new CourseMaterial
+            {
+                Id = findedMaterial.Id,
+                Name = findedMaterial.Name,
+                Link = findedMaterial.Link,
+                CourseId = findedMaterial.CourseId
+            };
+
+            return materialToReturn;
         }
 
 

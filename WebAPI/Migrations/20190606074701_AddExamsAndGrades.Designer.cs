@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190606074701_AddExamsAndGrades")]
+    partial class AddExamsAndGrades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTimeOffset>("CreationDate");
 
                     b.Property<string>("Header");
 
@@ -48,7 +50,7 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTime>("SendDate");
+                    b.Property<DateTimeOffset>("SendDate");
 
                     b.Property<int?>("StudentId");
 
@@ -74,8 +76,6 @@ namespace WebAPI.Migrations
                     b.Property<string>("StudyFlow");
 
                     b.Property<string>("SubGroup");
-
-                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 

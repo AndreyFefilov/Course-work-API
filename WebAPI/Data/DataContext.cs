@@ -19,6 +19,8 @@ namespace WebAPI.Data
         public DbSet<Result> Results { get; set; }
         public DbSet<TeacherCourse> TeacherCourses { get; set; }
         public DbSet<CourseMaterial> CourseMaterials { get; set; }
+        public DbSet<ExamGrade> ExamGrades { get; set; }
+        public DbSet<Exam> Exams { get; set; }
 
         public DataContext()
         {

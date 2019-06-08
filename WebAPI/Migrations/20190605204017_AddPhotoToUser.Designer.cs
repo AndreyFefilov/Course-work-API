@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190605204017_AddPhotoToUser")]
+    partial class AddPhotoToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTimeOffset>("CreationDate");
 
                     b.Property<string>("Header");
 
@@ -48,7 +50,7 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTime>("SendDate");
+                    b.Property<DateTimeOffset>("SendDate");
 
                     b.Property<int?>("StudentId");
 
@@ -74,8 +76,6 @@ namespace WebAPI.Migrations
                     b.Property<string>("StudyFlow");
 
                     b.Property<string>("SubGroup");
-
-                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 
@@ -118,52 +118,6 @@ namespace WebAPI.Migrations
                     b.ToTable("CourseMaterials");
                 });
 
-            modelBuilder.Entity("WebAPI.Data.Entities.Exam", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CourseId");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Mandatory");
-
-                    b.Property<double>("MinValue");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Exams");
-                });
-
-            modelBuilder.Entity("WebAPI.Data.Entities.ExamGrade", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int>("ExamId");
-
-                    b.Property<int>("StudentId");
-
-                    b.Property<double>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("ExamGrades");
-                });
-
             modelBuilder.Entity("WebAPI.Data.Entities.Result", b =>
                 {
                     b.Property<int>("Id")
@@ -180,7 +134,7 @@ namespace WebAPI.Migrations
 
                     b.Property<int>("StudentId");
 
-                    b.Property<int>("StudyYear");
+                    b.Property<string>("StudyYear");
 
                     b.Property<string>("TotalGrade");
 
@@ -281,27 +235,6 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Data.Entities.Course", "Course")
                         .WithMany("CourseMaterials")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WebAPI.Data.Entities.Exam", b =>
-                {
-                    b.HasOne("WebAPI.Data.Entities.Course", "Course")
-                        .WithMany("Exams")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WebAPI.Data.Entities.ExamGrade", b =>
-                {
-                    b.HasOne("WebAPI.Data.Entities.Exam", "Exam")
-                        .WithMany()
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebAPI.Data.Entities.User", "User")
-                        .WithMany("ExamGrades")
-                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

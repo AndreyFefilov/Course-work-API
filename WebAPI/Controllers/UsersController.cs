@@ -2,37 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.Data.Entities;
+using WebAPI.Data.Repositories;
 
 namespace WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUsersRepository _repos;
         private readonly DataContext _context;
 
-        public UsersController(DataContext context)
+        public UsersController(IUsersRepository repos, DataContext context)
         {
+            _repos = repos;
             _context = context;
         }
 
-        // GET: api/Users
-        [HttpGet]
+        [HttpGet("get-all-users")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _repos.GetAllUsers();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(users);
         }
 
-        // GET: api/Users/5
         [HttpGet("get-user/{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _repos.GetUser(id);
 
             if (user == null)
             {
@@ -42,8 +52,33 @@ namespace WebAPI.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        [HttpPut("{id}")]
+        [HttpGet("get-students/{id}")]
+        public async Task<ActionResult<User>> GetStudents(int id)
+        {
+            var students = await _repos.GetStudents(id);
+
+            if (students == null)
+            {
+                return NotFound("На этой дисциплине нет студентов");
+            }
+
+            return Ok(students);
+        }
+
+        [HttpGet("get-teachers/{id}")]
+        public async Task<ActionResult<User>> GetTeachers(int id)
+        {
+            var teachers = await _repos.GetTeachers(id);
+
+            if (teachers == null)
+            {
+                return NotFound("На этой дисциплине нет студентов");
+            }
+
+            return Ok(teachers);
+        }
+
+        [HttpPut("update-user/{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
             if (id != user.Id)
@@ -70,32 +105,6 @@ namespace WebAPI.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Users
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return user;
         }
 
         private bool UserExists(int id)

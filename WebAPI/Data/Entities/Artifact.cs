@@ -10,7 +10,7 @@ namespace WebAPI.Data.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateTimeOffset SendDate  { get; set; }
+        public DateTime SendDate  { get; set; }
 
         [NotMapped]
         public User Student { get; set; }

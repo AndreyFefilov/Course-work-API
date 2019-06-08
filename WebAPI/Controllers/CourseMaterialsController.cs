@@ -37,6 +37,41 @@ namespace WebAPI.Controllers
             return Ok(materials);
         }
 
+        [HttpPost("create-material")]
+        public async Task<ActionResult<CourseMaterial>> CreateMaterial(MaterialForCreate courseMaterial)
+        {
+            var material = new CourseMaterial
+            {
+                Name = courseMaterial.Name,
+                Link = courseMaterial.Link,
+                CourseId = courseMaterial.CourseId
+            };
+            
+            var createdMaterial = await _repos.CreateMaterial(material);
+
+            if (createdMaterial == null)
+            {
+                return BadRequest("Материал не создан");
+            }
+
+            return createdMaterial;
+        }
+
+        [HttpDelete("delete-material/{id}")]
+        public async Task<ActionResult> DeleteCourseMaterial(int id)
+        {
+            var courseMaterial = await _context.CourseMaterials.FindAsync(id);
+            if (courseMaterial == null)
+            {
+                return NotFound("Такого материала нет");
+            }
+
+            _context.CourseMaterials.Remove(courseMaterial);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPut("update-material/{id}")]
         public async Task<IActionResult> UpdateCourseMaterial(int id, CourseMaterial courseMaterial)
         {
@@ -63,37 +98,7 @@ namespace WebAPI.Controllers
                 }
             }
 
-            return NoContent();
-        }
-
-        [HttpPost("create-material")]
-        public async Task<ActionResult<CourseMaterial>> CreateMaterial(MaterialForCreate courseMaterial)
-        {
-            var material = new CourseMaterial
-            {
-                Name = courseMaterial.Name,
-                Link = courseMaterial.Link,
-                CourseId = courseMaterial.CourseId
-            };
-            
-            var createdMaterial = await _repos.CreateMaterial(material);
-
-            return StatusCode(201);
-        }
-
-        [HttpDelete("delete-material/{id}")]
-        public async Task<ActionResult<CourseMaterial>> DeleteCourseMaterial(int id)
-        {
-            var courseMaterial = await _context.CourseMaterials.FindAsync(id);
-            if (courseMaterial == null)
-            {
-                return NotFound("Такого материала нет");
-            }
-
-            _context.CourseMaterials.Remove(courseMaterial);
-            await _context.SaveChangesAsync();
-
-            return courseMaterial;
+            return Ok(courseMaterial);
         }
 
         private bool CourseMaterialExists(int id)

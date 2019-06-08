@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Data.Entities
 {
-    public class Result
+    public class ExamGrade
     {
         public int Id { get; set; }
 
@@ -14,17 +14,11 @@ namespace WebAPI.Data.Entities
         [ForeignKey("StudentId")]
         public User User { get; set; }
 
-        public int CourseId { get; set; }
-        public Course Course { get; set; }
+        public int ExamId { get; set; }
+        public Exam Exam { get; set; }
 
-        public int StudyYear { get; set; }
+        public double Value { get; set; }
 
-        public double? Grade { get; set; }
-
-        public double? Bonus { get; set; }
-
-        public string TotalGrade { get; set; }
-
-        public string InArchive { get; set; }
+        public DateTime Date { get; set; }
     }
 }

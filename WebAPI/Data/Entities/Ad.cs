@@ -14,7 +14,7 @@ namespace WebAPI.Data.Entities
 
         public string Text { get; set; }
 
-        public DateTimeOffset CreationDate { get; set; }
+        public DateTime Date { get; set; }
 
         public int TeacherId { get; set; }
         [ForeignKey("TeacherId")]

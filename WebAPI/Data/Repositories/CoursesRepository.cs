@@ -34,7 +34,7 @@ namespace WebAPI.Data
             await _context.TeacherCourses.AddAsync(teacherCourse);
             await _context.SaveChangesAsync();
 
-            return course;
+            return findedCourse;
         }
 
         public async Task<IEnumerable<CourseDTO>> GetStudentCourses(int id)
@@ -49,7 +49,7 @@ namespace WebAPI.Data
                 }).ToListAsync();
 
             var selectedCoursesIds = await _context.Results
-                            .Where(t => t.StudentId == id)
+                            .Where(t => t.StudentId == id && t.InArchive == "N")
                             .Select(x => x.CourseId).ToListAsync();
 
             return courses.Where(x => selectedCoursesIds.Contains(x.Id));

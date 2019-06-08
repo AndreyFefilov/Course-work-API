@@ -15,6 +15,8 @@ namespace WebAPI.Data.Entities
 
         public string SubGroup { get; set; }
 
+        public int Year { get; set; }
+
         public List<User> Users { get; set; }
     }
 }
