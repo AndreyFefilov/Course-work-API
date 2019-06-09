@@ -46,5 +46,8 @@ namespace WebAPI.Data.Entities
         public List<Result> Results { get; set; }
         public List<TeacherCourse> TeacherCourses { get; set; }
         public List<ExamGrade> ExamGrades { get; set; }
+
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
     }
 }

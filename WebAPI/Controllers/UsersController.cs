@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.Data.Entities;
 using WebAPI.Data.Repositories;
+using WebAPI.Models.EnitiesDTO;
 
 namespace WebAPI.Controllers
 {
@@ -18,38 +20,35 @@ namespace WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUsersRepository _repos;
+        private readonly IMapper _mapper;
         private readonly DataContext _context;
 
-        public UsersController(IUsersRepository repos, DataContext context)
+        public UsersController(IUsersRepository repos, DataContext context,
+                                IMapper mapper)
         {
             _repos = repos;
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("get-all-users")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult> GetUsers()
         {
             var users = await _repos.GetAllUsers();
 
-            if (users == null)
-            {
-                return NotFound();
-            }
+            var usersToReturn = _mapper.Map<IEnumerable<UserDTO>>(users);
 
-            return Ok(users);
+            return Ok(usersToReturn);
         }
 
         [HttpGet("get-user/{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult> GetUser(int id)
         {
             var user = await _repos.GetUser(id);
 
-            if (user == null)
-            {
-                return NotFound("Пользователь не найден");
-            }
+            var userToReturn = _mapper.Map<UserDTO>(user);
 
-            return user;
+            return Ok(userToReturn);
         }
 
         [HttpGet("get-students/{id}")]
@@ -72,7 +71,7 @@ namespace WebAPI.Controllers
 
             if (teachers == null)
             {
-                return NotFound("На этой дисциплине нет студентов");
+                return NotFound();
             }
 
             return Ok(teachers);

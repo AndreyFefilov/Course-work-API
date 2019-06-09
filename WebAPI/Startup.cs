@@ -49,6 +49,7 @@ namespace WebAPI
             services.AddScoped<ICoursesRepository, CoursesRepository>();
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IMessagesRepository, MessageRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

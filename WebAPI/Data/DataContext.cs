@@ -21,10 +21,24 @@ namespace WebAPI.Data
         public DbSet<CourseMaterial> CourseMaterials { get; set; }
         public DbSet<ExamGrade> ExamGrades { get; set; }
         public DbSet<Exam> Exams { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public DataContext()
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(m => m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+               .HasOne(u => u.Recipient)
+               .WithMany(m => m.MessagesReceived)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
