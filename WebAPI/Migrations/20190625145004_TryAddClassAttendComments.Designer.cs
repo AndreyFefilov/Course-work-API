@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190625145004_TryAddClassAttendComments")]
+    partial class TryAddClassAttendComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,9 +56,9 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("StudentId");
+                    b.Property<int?>("StudentId");
 
-                    b.Property<int>("TeacherId");
+                    b.Property<int?>("TeacherId");
 
                     b.Property<string>("Url");
 
@@ -376,14 +378,12 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("WebAPI.Data.Entities.Artifact", b =>
                 {
                     b.HasOne("WebAPI.Data.Entities.User", "Student")
-                        .WithMany("ArtifactsSent")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany("StudentArtifacts")
+                        .HasForeignKey("StudentId");
 
                     b.HasOne("WebAPI.Data.Entities.User", "Teacher")
-                        .WithMany("ArtifactsReceived")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany("TeacherArtifacts")
+                        .HasForeignKey("TeacherId");
                 });
 
             modelBuilder.Entity("WebAPI.Data.Entities.Attendance", b =>

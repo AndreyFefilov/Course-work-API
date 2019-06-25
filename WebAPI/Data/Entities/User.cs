@@ -36,16 +36,15 @@ namespace WebAPI.Data.Entities
         public int? ClusterId { get; set; }
         public Cluster Cluster { get; set; }
 
-        [InverseProperty("Student")]
-        public List<Artifact> StudentArtifacts { get; set; }
-
-        [InverseProperty("Teacher")]
-        public List<Artifact> TeacherArtifacts { get; set; }
+        public ICollection<Artifact> ArtifactsSent { get; set; }
+        public ICollection<Artifact> ArtifactsReceived { get; set; }
 
         public List<Ad> Ads { get; set; }
         public List<Result> Results { get; set; }
         public List<TeacherCourse> TeacherCourses { get; set; }
         public List<ExamGrade> ExamGrades { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<Attendance> Attendances { get; set; }
 
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }

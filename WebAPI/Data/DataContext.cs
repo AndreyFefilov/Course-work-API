@@ -22,6 +22,9 @@ namespace WebAPI.Data
         public DbSet<ExamGrade> ExamGrades { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
 
         public DataContext()
         {
@@ -39,6 +42,21 @@ namespace WebAPI.Data
                .HasOne(u => u.Recipient)
                .WithMany(m => m.MessagesReceived)
                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Artifact>()
+                .HasOne(s => s.Student)
+                .WithMany(a => a.ArtifactsSent)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Artifact>()
+                .HasOne(s => s.Teacher)
+                .WithMany(a => a.ArtifactsReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Comment>()
+                .HasOne(u => u.User)
+                .WithMany(c => c.Comments)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

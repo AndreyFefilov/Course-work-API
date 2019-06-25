@@ -10,6 +10,7 @@ namespace WebAPI.Models.EnitiesDTO
         public int Id { get; set; }
 
         public string Email { get; set; }
+        public string ConfirmEmail { get; set; }
 
         public string FirstName { get; set; }
 
@@ -25,5 +26,7 @@ namespace WebAPI.Models.EnitiesDTO
         public string ResultNotify { get; set; }
 
         public string PhotoUrl { get; set; }
+
+        public int ClusterId { get; set; }
     }
 }

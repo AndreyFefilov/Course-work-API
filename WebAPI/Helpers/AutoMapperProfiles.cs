@@ -15,6 +15,7 @@ namespace WebAPI.Helpers
             CreateMap<User, UserDTO>();
             CreateMap<CreationMessageDTO, Message>().ReverseMap();
             CreateMap<Message, MessageToReturnDTO>();
+            CreateMap<Artifact, ArtifactToReturnDTO>();
 
         }
     }

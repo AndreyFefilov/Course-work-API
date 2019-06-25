@@ -12,6 +12,8 @@
     <Compile Remove="Migrations\20190419160703_UserArtifFK.Designer.cs" />
     <Compile Remove="Migrations\20190420152824_fixArtif.cs" />
     <Compile Remove="Migrations\20190420152824_fixArtif.Designer.cs" />
+    <Compile Remove="Migrations\20190625140651_AddComment.cs" />
+    <Compile Remove="Migrations\20190625140651_AddComment.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

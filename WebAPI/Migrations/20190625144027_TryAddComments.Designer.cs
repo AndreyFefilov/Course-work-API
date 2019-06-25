@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190625144027_TryAddComments")]
+    partial class TryAddComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,9 +56,9 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("StudentId");
+                    b.Property<int?>("StudentId");
 
-                    b.Property<int>("TeacherId");
+                    b.Property<int?>("TeacherId");
 
                     b.Property<string>("Url");
 
@@ -67,27 +69,6 @@ namespace WebAPI.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Artifacts");
-                });
-
-            modelBuilder.Entity("WebAPI.Data.Entities.Attendance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("ClassGrade");
-
-                    b.Property<int>("ClassId");
-
-                    b.Property<int>("StudentId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("WebAPI.Data.Entities.Class", b =>
@@ -110,7 +91,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Class");
                 });
 
             modelBuilder.Entity("WebAPI.Data.Entities.Cluster", b =>
@@ -156,7 +137,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("WebAPI.Data.Entities.Course", b =>
@@ -376,27 +357,12 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("WebAPI.Data.Entities.Artifact", b =>
                 {
                     b.HasOne("WebAPI.Data.Entities.User", "Student")
-                        .WithMany("ArtifactsSent")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany("StudentArtifacts")
+                        .HasForeignKey("StudentId");
 
                     b.HasOne("WebAPI.Data.Entities.User", "Teacher")
-                        .WithMany("ArtifactsReceived")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("WebAPI.Data.Entities.Attendance", b =>
-                {
-                    b.HasOne("WebAPI.Data.Entities.Class", "Class")
-                        .WithMany("Attendances")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebAPI.Data.Entities.User", "User")
-                        .WithMany("Attendances")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("TeacherArtifacts")
+                        .HasForeignKey("TeacherId");
                 });
 
             modelBuilder.Entity("WebAPI.Data.Entities.Class", b =>

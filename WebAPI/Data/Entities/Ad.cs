@@ -16,8 +16,11 @@ namespace WebAPI.Data.Entities
 
         public DateTime Date { get; set; }
 
+
         public int TeacherId { get; set; }
         [ForeignKey("TeacherId")]
         public User User { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }
