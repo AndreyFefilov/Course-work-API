@@ -78,14 +78,28 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update-user/{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> UpdateUser(int id, UserUpdateDTO user)
         {
             if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            var foundUser = await _repos.GetUser(id);
+
+            foundUser.AdNotify = user.AdNotify;
+            foundUser.ArtifactNotify = user.ArtifactNotify;
+            foundUser.ResultNotify = user.ResultNotify;
+            foundUser.ClusterId = user.ClusterId;
+            foundUser.ConfirmEmail = user.ConfirmEmail;
+            foundUser.FirstName = user.FirstName;
+            foundUser.LastName = user.LastName;
+            foundUser.MessageNotify = user.MessageNotify;
+            foundUser.Patronymic = user.Patronymic;
+            foundUser.PhotoUrl = user.PhotoUrl;
+
+
+            _context.Entry(foundUser).State = EntityState.Modified;
 
             try
             {
@@ -103,7 +117,7 @@ namespace WebAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(user);
         }
 
         private bool UserExists(int id)
